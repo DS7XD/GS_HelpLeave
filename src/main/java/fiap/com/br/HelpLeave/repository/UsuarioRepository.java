@@ -1,10 +1,13 @@
 package fiap.com.br.HelpLeave.repository;
 
-import fiap.com.br.HelpLeave.model.Usuario;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.Optional;
+import fiap.com.br.HelpLeave.model.Usuario;
 
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
-    Optional<Usuario> findByEmail(String email);
+    Page<Usuario> findByNomeContainingIgnoreCase(String nome, Pageable pageable);
+
+    Object findByEmail(String email);
 }
