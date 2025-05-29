@@ -1,8 +1,11 @@
 package fiap.com.br.HelpLeave.controller;
 
-import fiap.com.br.HelpLeave.security.JWTUtil;
 import fiap.com.br.HelpLeave.model.AuthRequest;
 import fiap.com.br.HelpLeave.model.AuthResponse;
+import fiap.com.br.HelpLeave.security.JWTUtil;
+import fiap.com.br.HelpLeave.security.UserDetailsServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
@@ -12,26 +15,31 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/auth")
 public class AuthenticationController {
 
-    private final AuthenticationManager authenticationManager;
-    private final JWTUtil jwtUtil;
+    @Autowired
+    private AuthenticationManager authenticationManager;
 
-    public AuthenticationController(AuthenticationManager authenticationManager, JWTUtil jwtUtil) {
-        this.authenticationManager = authenticationManager;
-        this.jwtUtil = jwtUtil;
-    }
+    @Autowired
+    private JWTUtil jwtUtil;
+
+    @Autowired
+    private UserDetailsServiceImpl userDetailsService;
 
     @PostMapping("/login")
-    public AuthResponse login(@RequestBody AuthRequest request) {
+    public ResponseEntity<?> login(@RequestBody AuthRequest request) {
         try {
             authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(request.getEmail(), request.getSenha())
+                    new UsernamePasswordAuthenticationToken(
+                            request.getEmail(),
+                            request.getSenha()
+                    )
             );
 
-            String token = jwtUtil.generateToken(request.getEmail());
-            return new AuthResponse(token);
+            final var userDetails = userDetailsService.loadUserByUsername(request.getEmail());
+            final var token = jwtUtil.generateToken(userDetails);
 
+            return ResponseEntity.ok(new AuthResponse(token));
         } catch (AuthenticationException e) {
-            throw new RuntimeException("Credenciais inválidas");
+            return ResponseEntity.status(401).body("Usuário ou senha inválidos");
         }
     }
 }

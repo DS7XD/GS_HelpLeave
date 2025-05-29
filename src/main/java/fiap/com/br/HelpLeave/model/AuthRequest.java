@@ -1,10 +1,10 @@
 package fiap.com.br.HelpLeave.model;
 
 public class AuthRequest {
-
     private String email;
     private String senha;
 
+    // Getters e Setters
     public String getEmail() {
         return email;
     }
