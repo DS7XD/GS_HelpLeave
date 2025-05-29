@@ -1,6 +1,10 @@
 package fiap.com.br.HelpLeave.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+
 import java.time.LocalDate;
 
 @Entity
@@ -10,10 +14,18 @@ public class Alerta {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idAlerta;
 
+    @NotBlank(message = "O tipo do alerta é obrigatório")
+    @Size(max = 50, message = "O tipo deve ter no máximo 50 caracteres")
     private String tipo;
+
+    @NotBlank(message = "A localização é obrigatória")
+    @Size(max = 100, message = "A localização deve ter no máximo 100 caracteres")
     private String localizacao;
+
+    @NotNull(message = "A data do alerta é obrigatória")
     private LocalDate dataAlerta;
 
+    @NotNull(message = "O usuário é obrigatório")
     @ManyToOne
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;

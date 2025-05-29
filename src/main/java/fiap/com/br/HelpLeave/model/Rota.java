@@ -2,6 +2,7 @@ package fiap.com.br.HelpLeave.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 @Entity
@@ -19,6 +20,7 @@ public class Rota {
     @Size(max = 100, message = "O destino deve ter no máximo 100 caracteres")
     private String destino;
 
+    @NotNull(message = "O refúgio é obrigatório")
     @ManyToOne
     @JoinColumn(name = "refugio_id")
     private Refugio refugio;
