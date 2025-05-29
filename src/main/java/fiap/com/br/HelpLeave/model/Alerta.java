@@ -8,19 +8,23 @@ public class Alerta {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idAlertas;
+    private Long idAlerta;
 
     private String tipo;
     private String localizacao;
     private LocalDate dataAlerta;
 
+    @ManyToOne
+    @JoinColumn(name = "usuario_id")
+    private Usuario usuario;
+
     // Getters e Setters
-    public Long getIdAlertas() {
-        return idAlertas;
+    public Long getIdAlerta() {
+        return idAlerta;
     }
 
-    public void setIdAlertas(Long idAlertas) {
-        this.idAlertas = idAlertas;
+    public void setIdAlerta(Long idAlerta) {
+        this.idAlerta = idAlerta;
     }
 
     public String getTipo() {
@@ -45,5 +49,13 @@ public class Alerta {
 
     public void setDataAlerta(LocalDate dataAlerta) {
         this.dataAlerta = dataAlerta;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 }

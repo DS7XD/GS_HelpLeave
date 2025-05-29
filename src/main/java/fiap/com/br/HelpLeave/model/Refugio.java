@@ -1,28 +1,41 @@
 package fiap.com.br.HelpLeave.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
+import java.util.List;
 
 @Entity
 public class Refugio {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idRefugios;
+    private Long idRefugio;
 
+    @NotBlank(message = "O nome do refúgio é obrigatório")
+    @Size(max = 100)
     private String nome;
+
+    @NotBlank(message = "O endereço é obrigatório")
+    @Size(max = 200)
     private String endereco;
+
     private Integer capacidade;
 
+    @OneToMany(mappedBy = "refugio")
+    private List<Rota> rotas;
+
+    @OneToMany(mappedBy = "refugio")
+    private List<Usuario> usuarios;
+
     // Getters e Setters
-    public Long getIdRefugios() {
-        return idRefugios;
+    public Long getIdRefugio() {
+        return idRefugio;
     }
 
-    public void setIdRefugios(Long idRefugios) {
-        this.idRefugios = idRefugios;
+    public void setIdRefugio(Long idRefugio) {
+        this.idRefugio = idRefugio;
     }
 
     public String getNome() {
@@ -47,5 +60,21 @@ public class Refugio {
 
     public void setCapacidade(Integer capacidade) {
         this.capacidade = capacidade;
+    }
+
+    public List<Rota> getRotas() {
+        return rotas;
+    }
+
+    public void setRotas(List<Rota> rotas) {
+        this.rotas = rotas;
+    }
+
+    public List<Usuario> getUsuarios() {
+        return usuarios;
+    }
+
+    public void setUsuarios(List<Usuario> usuarios) {
+        this.usuarios = usuarios;
     }
 }

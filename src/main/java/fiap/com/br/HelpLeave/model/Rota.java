@@ -1,57 +1,58 @@
 package fiap.com.br.HelpLeave.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 @Entity
 public class Rota {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idRotas;
+    private Long idRota;
 
-    private String nome;
-    private String pontoInicio;
-    private String pontoFim;
-    private Integer tempoEstimado;
+    @NotBlank(message = "A origem é obrigatória")
+    @Size(max = 100, message = "A origem deve ter no máximo 100 caracteres")
+    private String origem;
+
+    @NotBlank(message = "O destino é obrigatório")
+    @Size(max = 100, message = "O destino deve ter no máximo 100 caracteres")
+    private String destino;
+
+    @ManyToOne
+    @JoinColumn(name = "refugio_id")
+    private Refugio refugio;
 
     // Getters e Setters
-    public Long getIdRotas() {
-        return idRotas;
+    public Long getIdRota() {
+        return idRota;
     }
 
-    public void setIdRotas(Long idRotas) {
-        this.idRotas = idRotas;
+    public void setIdRota(Long idRota) {
+        this.idRota = idRota;
     }
 
-    public String getNome() {
-        return nome;
+    public String getOrigem() {
+        return origem;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setOrigem(String origem) {
+        this.origem = origem;
     }
 
-    public String getPontoInicio() {
-        return pontoInicio;
+    public String getDestino() {
+        return destino;
     }
 
-    public void setPontoInicio(String pontoInicio) {
-        this.pontoInicio = pontoInicio;
+    public void setDestino(String destino) {
+        this.destino = destino;
     }
 
-    public String getPontoFim() {
-        return pontoFim;
+    public Refugio getRefugio() {
+        return refugio;
     }
 
-    public void setPontoFim(String pontoFim) {
-        this.pontoFim = pontoFim;
-    }
-
-    public Integer getTempoEstimado() {
-        return tempoEstimado;
-    }
-
-    public void setTempoEstimado(Integer tempoEstimado) {
-        this.tempoEstimado = tempoEstimado;
+    public void setRefugio(Refugio refugio) {
+        this.refugio = refugio;
     }
 }
