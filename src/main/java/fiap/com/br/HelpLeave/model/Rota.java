@@ -1,4 +1,4 @@
-package br.com.fiap.HelpLeave.model;
+package fiap.com.br.HelpLeave.model;
 
 import jakarta.persistence.*;
 

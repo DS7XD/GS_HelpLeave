@@ -5,9 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class HelpLeaveApplication {
-
-	public static void main(String[] args) {
-		SpringApplication.run(HelpLeaveApplication.class, args);
-	}
-
+    public static void main(String[] args) {
+        SpringApplication.run(HelpLeaveApplication.class, args);
+    }
 }
