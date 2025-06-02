@@ -1,12 +1,16 @@
 package fiap.com.br.HelpLeave.model;
 
-import jakarta.persistence.*;
+import java.util.List;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-
-import java.util.List;
 
 @Entity
 public class Refugio {
@@ -28,57 +32,21 @@ public class Refugio {
     private Integer capacidade;
 
     @OneToMany(mappedBy = "refugio")
-    private List<Rota> rotas;
-
-    @OneToMany(mappedBy = "refugio")
     private List<Usuario> usuarios;
 
+    // Opcional: relacionamento com Rota se necessário
+    // @OneToMany(mappedBy = "refugio")
+    // private List<Rota> rotas;
+
     // Getters e Setters
-    public Long getIdRefugio() {
-        return idRefugio;
-    }
-
-    public void setIdRefugio(Long idRefugio) {
-        this.idRefugio = idRefugio;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getEndereco() {
-        return endereco;
-    }
-
-    public void setEndereco(String endereco) {
-        this.endereco = endereco;
-    }
-
-    public Integer getCapacidade() {
-        return capacidade;
-    }
-
-    public void setCapacidade(Integer capacidade) {
-        this.capacidade = capacidade;
-    }
-
-    public List<Rota> getRotas() {
-        return rotas;
-    }
-
-    public void setRotas(List<Rota> rotas) {
-        this.rotas = rotas;
-    }
-
-    public List<Usuario> getUsuarios() {
-        return usuarios;
-    }
-
-    public void setUsuarios(List<Usuario> usuarios) {
-        this.usuarios = usuarios;
-    }
+    public Long getIdRefugio() { return idRefugio; }
+    public void setIdRefugio(Long idRefugio) { this.idRefugio = idRefugio; }
+    public String getNome() { return nome; }
+    public void setNome(String nome) { this.nome = nome; }
+    public String getEndereco() { return endereco; }
+    public void setEndereco(String endereco) { this.endereco = endereco; }
+    public Integer getCapacidade() { return capacidade; }
+    public void setCapacidade(Integer capacidade) { this.capacidade = capacidade; }
+    public List<Usuario> getUsuarios() { return usuarios; }
+    public void setUsuarios(List<Usuario> usuarios) { this.usuarios = usuarios; }
 }
