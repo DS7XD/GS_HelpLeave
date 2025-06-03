@@ -1,29 +1,39 @@
 package fiap.com.br.HelpLeave.model;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 @Entity
+@Table(name = "ROTAS")
 public class Rota {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID_ROTAS")
     private Long idRota;
 
-    @NotBlank(message = "A origem é obrigatória")
-    @Size(max = 100, message = "A origem deve ter no máximo 100 caracteres")
-    private String origem;
+    @NotBlank(message = "O nome da rota é obrigatório")
+    @Size(max = 100, message = "O nome da rota deve ter no máximo 100 caracteres")
+    @Column(name = "NOME", nullable = false, length = 100)
+    private String nome;
 
-    @NotBlank(message = "O destino é obrigatório")
-    @Size(max = 100, message = "O destino deve ter no máximo 100 caracteres")
-    private String destino;
+    @NotBlank(message = "O ponto de início é obrigatório")
+    @Size(max = 100, message = "O ponto de início deve ter no máximo 100 caracteres")
+    @Column(name = "PONTO_INICIO", nullable = false, length = 100)
+    private String pontoInicio;
 
-    @NotNull(message = "O refúgio é obrigatório")
-    @ManyToOne
-    @JoinColumn(name = "refugio_id")
-    private Refugio refugio;
+    @NotBlank(message = "O ponto de fim é obrigatório")
+    @Size(max = 100, message = "O ponto de fim deve ter no máximo 100 caracteres")
+    @Column(name = "PONTO_FIM", nullable = false, length = 100)
+    private String pontoFim;
+
+    @NotNull(message = "O tempo estimado é obrigatório")
+    @Column(name = "TEMPO_ESTIMADO", nullable = false)
+    private Integer tempoEstimado;
 
     // Getters e Setters
     public Long getIdRota() {
@@ -34,27 +44,35 @@ public class Rota {
         this.idRota = idRota;
     }
 
-    public String getOrigem() {
-        return origem;
+    public String getNome() {
+        return nome;
     }
 
-    public void setOrigem(String origem) {
-        this.origem = origem;
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
-    public String getDestino() {
-        return destino;
+    public String getPontoInicio() {
+        return pontoInicio;
     }
 
-    public void setDestino(String destino) {
-        this.destino = destino;
+    public void setPontoInicio(String pontoInicio) {
+        this.pontoInicio = pontoInicio;
     }
 
-    public Refugio getRefugio() {
-        return refugio;
+    public String getPontoFim() {
+        return pontoFim;
     }
 
-    public void setRefugio(Refugio refugio) {
-        this.refugio = refugio;
+    public void setPontoFim(String pontoFim) {
+        this.pontoFim = pontoFim;
+    }
+
+    public Integer getTempoEstimado() {
+        return tempoEstimado;
+    }
+
+    public void setTempoEstimado(Integer tempoEstimado) {
+        this.tempoEstimado = tempoEstimado;
     }
 }
