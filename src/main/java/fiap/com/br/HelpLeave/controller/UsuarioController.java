@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,6 +27,9 @@ public class UsuarioController {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @GetMapping
     public Page<Usuario> listar(Pageable pageable) {
         return usuarioRepository.findAll(pageable);
@@ -38,6 +42,7 @@ public class UsuarioController {
 
     @PostMapping
     public Usuario cadastrar(@RequestBody @Valid Usuario usuario) {
+        usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
         return usuarioRepository.save(usuario);
     }
 
@@ -52,7 +57,7 @@ public class UsuarioController {
                 .map(usuario -> {
                     usuario.setNome(novoUsuario.getNome());
                     usuario.setEmail(novoUsuario.getEmail());
-                    usuario.setSenha(novoUsuario.getSenha());
+                    usuario.setSenha(passwordEncoder.encode(novoUsuario.getSenha()));
                     return usuarioRepository.save(usuario);
                 }).orElseThrow();
     }
