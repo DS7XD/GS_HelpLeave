@@ -38,10 +38,10 @@ public class AuthenticationController {
     public ResponseEntity<?> login(@RequestBody AuthRequest request) {
         try {
             authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(
-                            request.getEmail(),
-                            request.getSenha()
-                    )
+                new UsernamePasswordAuthenticationToken(
+                    request.getEmail(),
+                    request.getSenha()
+                )
             );
 
             final var userDetails = userDetailsService.loadUserByUsername(request.getEmail());
@@ -63,7 +63,7 @@ public class AuthenticationController {
         novoUsuario.setEmail(request.getEmail());
         novoUsuario.setNome(request.getNome());
         novoUsuario.setSenha(passwordEncoder.encode(request.getSenha()));
-        novoUsuario.setIdUsuario(System.currentTimeMillis());
+        novoUsuario.setIdUsuario(System.currentTimeMillis()); 
 
         userDetailsService.getUsuarioRepository().save(novoUsuario);
 
