@@ -17,7 +17,9 @@ import fiap.com.br.HelpLeave.model.RegisterRequest;
 import fiap.com.br.HelpLeave.model.Usuario;
 import fiap.com.br.HelpLeave.security.JWTUtil;
 import fiap.com.br.HelpLeave.security.UserDetailsServiceImpl;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
+@Tag(name = "Autenticação", description = "Login e registro de usuários")
 @RestController
 @RequestMapping("/auth")
 public class AuthenticationController {
@@ -54,7 +56,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody RegisterRequest request) {
+    public ResponseEntity<?> registrarUsuario(@RequestBody RegisterRequest request) {
         if (userDetailsService.getUsuarioRepository().findByEmail(request.getEmail()).isPresent()) {
             return ResponseEntity.badRequest().body("Email já está em uso.");
         }
@@ -63,7 +65,7 @@ public class AuthenticationController {
         novoUsuario.setEmail(request.getEmail());
         novoUsuario.setNome(request.getNome());
         novoUsuario.setSenha(passwordEncoder.encode(request.getSenha()));
-        novoUsuario.setIdUsuario(System.currentTimeMillis()); 
+        novoUsuario.setIdUsuario(System.currentTimeMillis());
 
         userDetailsService.getUsuarioRepository().save(novoUsuario);
 

@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import fiap.com.br.HelpLeave.model.Refugio;
 import fiap.com.br.HelpLeave.repository.RefugioRepository;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
+@Tag(name = "Refúgios", description = "Cadastro e listagem de pontos de refúgio")
 @RestController
 @RequestMapping("/refugios")
 public class RefugioController {
@@ -23,16 +25,16 @@ public class RefugioController {
     private RefugioRepository repository;
 
     @GetMapping
-    public Page<Refugio> listar(
+    public Page<Refugio> listarRefugios(
             @RequestParam(required = false) String nome,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size,
-            @RequestParam(defaultValue = "idRefugio") String sort,
-            @RequestParam(defaultValue = "asc") String direction
+            @RequestParam(defaultValue = "0") int pagina,
+            @RequestParam(defaultValue = "10") int tamanho,
+            @RequestParam(defaultValue = "idRefugio") String ordenarPor,
+            @RequestParam(defaultValue = "asc") String direcao
     ) {
-        Pageable pageable = PageRequest.of(page, size,
-                direction.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC,
-                sort);
+        Pageable pageable = PageRequest.of(pagina, tamanho,
+                direcao.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC,
+                ordenarPor);
 
         if (nome != null) {
             return repository.findByNomeContainingIgnoreCase(nome, pageable);
@@ -41,8 +43,8 @@ public class RefugioController {
         }
     }
 
-    @PostMapping
-    public Refugio cadastrar(@RequestBody Refugio refugio) {
+    @PostMapping("/novo")
+    public Refugio cadastrarRefugio(@RequestBody Refugio refugio) {
         return repository.save(refugio);
     }
 }

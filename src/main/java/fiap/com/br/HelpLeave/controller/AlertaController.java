@@ -1,11 +1,23 @@
 package fiap.com.br.HelpLeave.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
 import fiap.com.br.HelpLeave.model.Alerta;
 import fiap.com.br.HelpLeave.repository.AlertaRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.*;
-import org.springframework.web.bind.annotation.*;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
+@Tag(name = "Alertas", description = "Gerenciamento dos alertas em situações de risco")
 @RestController
 @RequestMapping("/alertas")
 public class AlertaController {
@@ -13,6 +25,7 @@ public class AlertaController {
     @Autowired
     private AlertaRepository repository;
 
+    @Operation(summary = "Listar alertas", description = "Lista todos os alertas com filtros opcionais por tipo e localização.")
     @GetMapping
     public Page<Alerta> listar(
             @RequestParam(required = false) String tipo,
@@ -37,6 +50,7 @@ public class AlertaController {
         }
     }
 
+    @Operation(summary = "Cadastrar alerta", description = "Cadastra um novo alerta.")
     @PostMapping
     public Alerta cadastrar(@RequestBody Alerta alerta) {
         return repository.save(alerta);

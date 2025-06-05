@@ -18,8 +18,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import fiap.com.br.HelpLeave.model.Usuario;
 import fiap.com.br.HelpLeave.repository.UsuarioRepository;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
+@Tag(name = "Usuários", description = "Gerenciamento de usuários do sistema")
 @RestController
 @RequestMapping("/usuarios")
 public class UsuarioController {
@@ -31,7 +33,7 @@ public class UsuarioController {
     private PasswordEncoder passwordEncoder;
 
     @GetMapping
-    public Page<Usuario> listar(Pageable pageable) {
+    public Page<Usuario> listarUsuarios(Pageable pageable) {
         return usuarioRepository.findAll(pageable);
     }
 
@@ -40,19 +42,19 @@ public class UsuarioController {
         return usuarioRepository.findByNomeContainingIgnoreCase(nome, pageable);
     }
 
-    @PostMapping
-    public Usuario cadastrar(@RequestBody @Valid Usuario usuario) {
+    @PostMapping("/novo")
+    public Usuario cadastrarUsuario(@RequestBody @Valid Usuario usuario) {
         usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
         return usuarioRepository.save(usuario);
     }
 
     @GetMapping("/{id}")
-    public Optional<Usuario> buscarPorId(@PathVariable Long id) {
+    public Optional<Usuario> buscarUsuarioPorId(@PathVariable Long id) {
         return usuarioRepository.findById(id);
     }
 
     @PutMapping("/{id}")
-    public Usuario atualizar(@PathVariable Long id, @RequestBody @Valid Usuario novoUsuario) {
+    public Usuario atualizarUsuario(@PathVariable Long id, @RequestBody @Valid Usuario novoUsuario) {
         return usuarioRepository.findById(id)
                 .map(usuario -> {
                     usuario.setNome(novoUsuario.getNome());
@@ -63,7 +65,7 @@ public class UsuarioController {
     }
 
     @DeleteMapping("/{id}")
-    public void deletar(@PathVariable Long id) {
+    public void deletarUsuario(@PathVariable Long id) {
         usuarioRepository.deleteById(id);
     }
 }
