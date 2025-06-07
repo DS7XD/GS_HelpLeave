@@ -29,9 +29,9 @@ services:
     networks:
       - helpleave_net
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://database:5432/helpleave_db
-      SPRING_DATASOURCE_USERNAME: helpleave_user
-      SPRING_DATASOURCE_PASSWORD: helpleave_pass
+      SPRING_DATASOURCE_URL: jdbc:oracle:thin:@oracle.fiap.com.br:1521/orcl
+      SPRING_DATASOURCE_USERNAME: RM558791
+      SPRING_DATASOURCE_PASSWORD: fiap2025
 
 volumes:
   pgdata:
