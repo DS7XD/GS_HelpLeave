@@ -34,7 +34,7 @@ public class SecurityConfig {
                     "/swagger-ui/**",
                     "/swagger-ui.html"
                 ).permitAll()
-                .anyRequest().authenticated()        
+                .anyRequest().authenticated() 
             )
             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
@@ -46,7 +46,6 @@ public class SecurityConfig {
         return config.getAuthenticationManager();
     }
 
-    
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
