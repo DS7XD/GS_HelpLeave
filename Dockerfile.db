@@ -1,0 +1,16 @@
+FROM postgres:15
+
+# Criar usuário não-root
+RUN useradd -ms /bin/bash appuser
+
+# Definir usuário não-root
+USER appuser
+
+# Definir diretório de trabalho
+WORKDIR /home/appuser/dbdata
+
+# Variável de ambiente
+ENV POSTGRES_DB=helpleave_db
+
+# Expor a porta
+EXPOSE 5432

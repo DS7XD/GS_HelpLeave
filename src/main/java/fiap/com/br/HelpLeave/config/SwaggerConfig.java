@@ -28,7 +28,7 @@ public class SwaggerConfig {
                     .name("Equipe HelpLeave"))
             )
             .servers(List.of(
-                new Server().url("http://localhost:8082").description("Servidor Local"),
+                new Server().url("http://localhost:8080").description("Servidor Local"),
                 new Server().url("https://helpleave.azurewebsites.net").description("Servidor em Produção")
             ))
             .addSecurityItem(new SecurityRequirement().addList("bearerAuth"))

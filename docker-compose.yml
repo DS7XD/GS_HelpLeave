@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  database:
+    build:
+      context: .
+      dockerfile: Dockerfile.db
+    container_name: postgres_helpleave
+    environment:
+      - POSTGRES_DB=helpleave_db
+      - POSTGRES_USER=helpleave_user
+      - POSTGRES_PASSWORD=helpleave_pass
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - helpleave_net
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: helpleave_api
+    depends_on:
+      - database
+    ports:
+      - "8080:8080"
+    networks:
+      - helpleave_net
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://database:5432/helpleave_db
+      SPRING_DATASOURCE_USERNAME: helpleave_user
+      SPRING_DATASOURCE_PASSWORD: helpleave_pass
+
+volumes:
+  pgdata:
+
+networks:
+  helpleave_net:
+    driver: bridge
