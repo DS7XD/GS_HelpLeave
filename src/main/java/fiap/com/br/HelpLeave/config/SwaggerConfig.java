@@ -9,7 +9,6 @@ import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Contact;
 import io.swagger.v3.oas.models.info.Info;
-import io.swagger.v3.oas.models.info.License;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.servers.Server;
@@ -21,16 +20,12 @@ public class SwaggerConfig {
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
             .info(new Info()
-                .title("API HelpLeave – Sistema de Evacuação e Rotas Seguras")
+                .title("API HelpLeave – Sistema de Evacuação e Encontro de Abrigos")
                 .version("1.0")
-                .description("Esta API oferece recursos para gestão de usuários, rotas de evacuação e segurança em situações de risco.\n\n"
+                .description("Esta API oferece recursos para gestão de usuários, localização de abrigo, emissão de alertas e segurança em situações de risco.\n\n"
                            + "🔐 Endpoints protegidos exigem autenticação JWT.")
                 .contact(new Contact()
-                    .name("Equipe HelpLeave")
-                    .email("suporte@helpleave.app"))
-                .license(new License()
-                    .name("MIT License")
-                    .url("https://opensource.org/licenses/MIT"))
+                    .name("Equipe HelpLeave"))
             )
             .servers(List.of(
                 new Server().url("http://localhost:8082").description("Servidor Local"),

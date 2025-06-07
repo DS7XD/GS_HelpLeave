@@ -30,7 +30,7 @@ public class JWTFilter extends OncePerRequestFilter {
 
         String path = request.getServletPath();
 
-        // Libera rotas públicas do filtro
+        
         if (path.startsWith("/auth/") || path.startsWith("/swagger") || path.startsWith("/v3/api-docs")) {
             filterChain.doFilter(request, response);
             return;
