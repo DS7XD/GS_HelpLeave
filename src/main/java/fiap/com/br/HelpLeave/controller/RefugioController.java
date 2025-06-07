@@ -1,13 +1,18 @@
 package fiap.com.br.HelpLeave.controller;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -49,5 +54,26 @@ public class RefugioController {
     @PreAuthorize("hasRole('USER')")
     public Refugio cadastrarRefugio(@RequestBody Refugio refugio) {
         return repository.save(refugio);
+    }
+
+    @PutMapping("/{id}")
+    @PreAuthorize("hasRole('USER')")
+    public Refugio atualizar(@PathVariable Long id, @RequestBody Refugio atualizado) {
+        Optional<Refugio> optional = repository.findById(id);
+        if (optional.isPresent()) {
+            Refugio refugio = optional.get();
+            refugio.setNome(atualizado.getNome());
+            refugio.setEndereco(atualizado.getEndereco());
+            refugio.setCapacidade(atualizado.getCapacidade());
+            return repository.save(refugio);
+        } else {
+            throw new RuntimeException("Refúgio não encontrado com ID: " + id);
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('USER')")
+    public void deletar(@PathVariable Long id) {
+        repository.deleteById(id);
     }
 }
