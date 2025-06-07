@@ -8,10 +8,10 @@ import fiap.com.br.HelpLeave.model.Rota;
 
 public interface RotaRepository extends JpaRepository<Rota, Long> {
 
-    Page<Rota> findByPontoInicioContainingIgnoreCase(String pontoInicio, Pageable pageable);
+    Page<Rota> findByNomeContainingIgnoreCase(String nome, Pageable pageable);
 
-    Page<Rota> findByPontoFimContainingIgnoreCase(String pontoFim, Pageable pageable);
+    Page<Rota> findByNivelRiscoContainingIgnoreCase(String nivelRisco, Pageable pageable);
 
-    Page<Rota> findByPontoInicioContainingIgnoreCaseAndPontoFimContainingIgnoreCase(String pontoInicio, String pontoFim, Pageable pageable);
+    Page<Rota> findByNomeContainingIgnoreCaseAndNivelRiscoContainingIgnoreCase(String nome, String nivelRisco, Pageable pageable);
 
 }

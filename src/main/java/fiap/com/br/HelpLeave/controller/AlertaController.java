@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,6 +28,7 @@ public class AlertaController {
 
     @Operation(summary = "Listar alertas", description = "Lista todos os alertas com filtros opcionais por tipo e localização.")
     @GetMapping
+    @PreAuthorize("hasRole('USER')")
     public Page<Alerta> listar(
             @RequestParam(required = false) String tipo,
             @RequestParam(required = false) String localizacao,
@@ -52,6 +54,7 @@ public class AlertaController {
 
     @Operation(summary = "Cadastrar alerta", description = "Cadastra um novo alerta.")
     @PostMapping
+    @PreAuthorize("hasRole('USER')")
     public Alerta cadastrar(@RequestBody Alerta alerta) {
         return repository.save(alerta);
     }
