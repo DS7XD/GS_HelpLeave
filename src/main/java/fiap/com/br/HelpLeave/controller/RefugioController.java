@@ -31,7 +31,7 @@ public class RefugioController {
     private RefugioRepository repository;
 
     @GetMapping
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAuthority('USER')")
     public Page<Refugio> listarRefugios(
             @RequestParam(required = false) String nome,
             @RequestParam(defaultValue = "0") int pagina,
@@ -51,13 +51,13 @@ public class RefugioController {
     }
 
     @PostMapping("/novo")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAuthority('USER')")
     public Refugio cadastrarRefugio(@RequestBody Refugio refugio) {
         return repository.save(refugio);
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAuthority('USER')")
     public Refugio atualizar(@PathVariable Long id, @RequestBody Refugio atualizado) {
         Optional<Refugio> optional = repository.findById(id);
         if (optional.isPresent()) {
@@ -72,7 +72,7 @@ public class RefugioController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAuthority('USER')")
     public void deletar(@PathVariable Long id) {
         repository.deleteById(id);
     }

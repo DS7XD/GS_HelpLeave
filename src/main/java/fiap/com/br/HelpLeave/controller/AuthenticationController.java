@@ -49,7 +49,8 @@ public class AuthenticationController {
             final var userDetails = userDetailsService.loadUserByUsername(request.getEmail());
             final var token = jwtUtil.generateToken(userDetails);
 
-            return ResponseEntity.ok(new AuthResponse("Bearer " + token));
+            
+            return ResponseEntity.ok(new AuthResponse(token));
         } catch (AuthenticationException e) {
             return ResponseEntity.status(401).body("Usuário ou senha inválidos");
         }

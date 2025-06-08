@@ -19,7 +19,7 @@ public class JWTUtil {
     private final Key key;
 
     public JWTUtil(
-        @Value("${jwt.secret:secret}") String secret,
+        @Value("${jwt.secret:secret12345678901234567890123456789012}") String secret,
         @Value("${jwt.expiration:86400000}") long expirationMillis
     ) {
         this.expirationMillis = expirationMillis;
@@ -41,9 +41,12 @@ public class JWTUtil {
                 .compact();
     }
 
-    public boolean validateToken(String token, UserDetails userDetails) {
-        final String username = extractUsername(token);
-        return username.equals(userDetails.getUsername()) && !isTokenExpired(token);
+    public Claims parseClaims(String token) {
+        return Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
     }
 
     public String extractUsername(String token) {
@@ -54,11 +57,8 @@ public class JWTUtil {
         return parseClaims(token).getExpiration().before(new Date());
     }
 
-    public Claims parseClaims(String token) {
-        return Jwts.parserBuilder()
-                .setSigningKey(key)
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
+    public boolean validateToken(String token, UserDetails userDetails) {
+        final String username = extractUsername(token);
+        return username.equals(userDetails.getUsername()) && !isTokenExpired(token);
     }
 }
