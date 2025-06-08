@@ -15,7 +15,6 @@ import io.jsonwebtoken.security.Keys;
 @Component
 public class JWTUtil {
 
-    private final String secret;
     private final long expirationMillis;
     private final Key key;
 
@@ -23,7 +22,6 @@ public class JWTUtil {
         @Value("${jwt.secret:secret}") String secret,
         @Value("${jwt.expiration:86400000}") long expirationMillis
     ) {
-        this.secret = secret;
         this.expirationMillis = expirationMillis;
         this.key = Keys.hmacShaKeyFor(secret.getBytes());
     }
@@ -34,6 +32,9 @@ public class JWTUtil {
 
         return Jwts.builder()
                 .setSubject(userDetails.getUsername())
+                .claim("roles", userDetails.getAuthorities().stream()
+                        .map(Object::toString)
+                        .toList())
                 .setIssuedAt(now)
                 .setExpiration(expiration)
                 .signWith(key, SignatureAlgorithm.HS256)
@@ -53,7 +54,7 @@ public class JWTUtil {
         return parseClaims(token).getExpiration().before(new Date());
     }
 
-    private Claims parseClaims(String token) {
+    public Claims parseClaims(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(key)
                 .build()

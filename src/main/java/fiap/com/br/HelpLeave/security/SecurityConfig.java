@@ -29,20 +29,20 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable())
             .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
-                // Libera POST para registro
+                
                 .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
-                // Libera POST para login
+                
                 .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
-                // Libera acesso à documentação do Swagger
+                
                 .requestMatchers(
                     "/v3/api-docs/**",
                     "/swagger-ui/**",
                     "/swagger-ui.html"
                 ).permitAll()
-                // Todas as outras rotas precisam de autenticação
+                
                 .anyRequest().authenticated()
             )
-            // Filtro JWT
+            
             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
