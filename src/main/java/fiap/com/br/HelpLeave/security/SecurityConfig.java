@@ -3,6 +3,7 @@ package fiap.com.br.HelpLeave.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -28,14 +29,20 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable())
             .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
+                // Libera POST para registro
+                .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
+                // Libera POST para login
+                .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
+                // Libera acesso à documentação do Swagger
                 .requestMatchers(
-                    "/auth/**",                      
-                    "/v3/api-docs/**",               
+                    "/v3/api-docs/**",
                     "/swagger-ui/**",
                     "/swagger-ui.html"
                 ).permitAll()
-                .anyRequest().authenticated() 
+                // Todas as outras rotas precisam de autenticação
+                .anyRequest().authenticated()
             )
+            // Filtro JWT
             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
