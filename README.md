@@ -51,6 +51,19 @@ Swagger: http://localhost:8080/swagger-ui/index.html
 
 API: http://localhost:8080
 
+## 🛢️ Integração com Banco de Dados Oracle
+
+Esta API utiliza banco de dados Oracle (ex: servidor da FIAP).
+
+As configurações estão em `application.properties`:
+
+```properties
+spring.datasource.url=jdbc:oracle:thin:@oracle.fiap.com.br:1521/orcl
+spring.datasource.username=RM558791
+spring.datasource.password=fiap2025
+
+Mude para a sua conexão Oracle para teste
+
 📦 Deploy em Nuvem com Docker + Azure
 1. Crie o Dockerfile
 O projeto já inclui o Dockerfile pronto.
